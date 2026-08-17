@@ -3,25 +3,26 @@ import { URL } from 'node:url'
 
 const porta = 3000
 
-const produtos = [
-    {id: 1, nome: "Sabonete"},
-    {id: 2, nome: "Volante LogiTech G923"},
-    {id: 3, nome: "Sabão em Pó"},
-    {id: 4, nome: "Pelúcia do Sonic"},
+const tarefas = [
+    { id: 1, titulo: "Estudar" },
+    { id: 2, titulo: "Fazer trabalho de Banco de Dados" },
+    { id: 3, titulo: "fazer seminario de portugues" },
+    { id: 4, titulo: "Fazer atividade de fisca" }
 ]
 
 const server = http.createServer((req, res) => {
     res.statusCode = 200
     res.setHeader('Content-Type', 'application/json; charset=utf-8')
 
-    if (req.method == "GET" && req.url == "/contato") {
-        return res.end(JSON.stringify({data:
-            {numero_telefone: "67 99999 9999",
-                endereco: "Rua da Alegria, 99, Centro"}}));
-    }
+    if (req.method == "GET" && req.url.startsWith("/tarefas/busca")) {
+        const url = new URL(req.url, `http://localhost:${porta}`)
+        const titulo = url.searchParams.get("titulo")
 
-    if (req.method == "GET" && req.url == "/produtos") {
-        return res.end(JSON.stringify(produtos));
+        const resultado = tarefas.filter(tarefa =>
+            tarefa.titulo.toLowerCase().includes(titulo.toLowerCase())
+        )
+
+        return res.end(JSON.stringify(resultado))
     }
 
     res.end(JSON.stringify({data: "Página Inicial"}))
@@ -29,4 +30,4 @@ const server = http.createServer((req, res) => {
 
 server.listen(porta, () => {
     console.log(`Servidor ouvindo na porta ${porta}`)
-});
+})
