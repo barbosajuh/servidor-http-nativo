@@ -24,6 +24,17 @@ const server = http.createServer((req, res) => {
 
         return res.end(JSON.stringify(resultado))
     }
+    if (req.method == "DELETE" && req.url.startsWith("/tarefas")) {
+        const url = new URL(req.url, `http://localhost:${porta}`)
+        const index = Number(url.searchParams.get("index"))
+
+        if (index >= 0 && index < tarefas.length) {
+            tarefas.splice(index, 1)
+            return res.end(JSON.stringify({data: "Tarefa removida com sucesso"}))
+        }
+
+        return res.end(JSON.stringify({data: "Índice inválido"}))
+    }
 
     res.end(JSON.stringify({data: "Página Inicial"}))
 })
