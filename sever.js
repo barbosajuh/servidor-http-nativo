@@ -13,3 +13,7 @@ const sever = http.createServer((req, res) => {
 http.Server.listen(PORTA, () => {
     console.log(`Servidor funcionando na porta ${PORTA}`);
 });
+
+//reposta da 4:Se eu tirar o res.end(), o navegador fica carregando sem parar, 
+// porque o servidor não finaliza a resposta.
+// O res.end() serve justamente para avisar que a resposta terminou. 
