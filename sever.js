@@ -42,3 +42,6 @@ const server = http.createServer((req, res) => {
 server.listen(porta, () => {
     console.log(`Servidor ouvindo na porta ${porta}`)
 })
+//tratamento não está adequado, pois não há JSON.parse() 
+// nem try...catch. Se um JSON inválido fosse enviado, 
+// poderia ocorrer um erro no servidor.
